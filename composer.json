@@ -1,0 +1,31 @@
+{
+  "name": "bin/third",
+  "type": "project",
+  "description": "third",
+  "keywords": [
+    "third"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "bin",
+      "email": "bin@test.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.2",
+    "ext-json": "*",
+    "ext-openssl": "*",
+    "yunpian/yunpian-php-sdk": "^1.0",
+    "sentry/sdk": "^2.1",
+    "firebase/php-jwt": "^5.2",
+    "predis/predis": "^1.1",
+    "catfan/medoo": "^1.7"
+  },
+  "repositories": {
+    "packagist": {
+      "type": "composer",
+      "url": "https://mirrors.aliyun.com/composer/"
+    }
+  }
+}

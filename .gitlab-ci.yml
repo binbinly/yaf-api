@@ -1,0 +1,29 @@
+variables:
+  PROJECT_NAME: third
+  DEPLOY_DEV_PATH: /home/wwwroot
+  DEPLOY_MASTER_PATH: /www/wwwroot
+
+stages:
+  - deploy
+
+deploy_dev:
+  stage: deploy
+  script:
+    - rsync -avzu --progress --delete -e ssh --exclude='.git' --exclude='.env' --exclude='composer.lock' --exclude='vendor' --exclude='storage' $CI_PROJECT_DIR www@192.168.1.200:$DEPLOY_DEV_PATH
+    - ssh www@192.168.1.200 "cd $DEPLOY_DEV_PATH/$PROJECT_NAME && composer update && chown -R www:www vendor"
+  only:
+    - dev
+deploy_master:
+  stage: deploy
+  script:
+    - rsync -avzu --progress --delete -e ssh --exclude='.git' --exclude='.env' --exclude='composer.lock' --exclude='vendor' --exclude='storage' $CI_PROJECT_DIR www@159.138.145.44:$DEPLOY_MASTER_PATH
+    - ssh www@159.138.145.44 "cd $DEPLOY_MASTER_PATH/$PROJECT_NAME && composer update && chown -R www:www vendor"
+  only:
+    - master
+deploy_test:
+  stage: deploy
+  script:
+    - rsync -avzu --progress --delete -e ssh --exclude='.git' --exclude='.env' --exclude='composer.lock' --exclude='vendor' --exclude='storage' $CI_PROJECT_DIR www@103.103.69.94:$DEPLOY_MASTER_PATH
+    - ssh www@103.103.69.94 "cd $DEPLOY_MASTER_PATH/$PROJECT_NAME && composer update && chown -R www:www vendor"
+  only:
+    - test
