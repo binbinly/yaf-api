@@ -27,3 +27,10 @@ deploy_test:
     - ssh www@103.103.69.94 "cd $DEPLOY_MASTER_PATH/$PROJECT_NAME && composer update && chown -R www:www vendor"
   only:
     - test
+deploy_show:
+  stage: deploy
+  script:
+    - rsync -avzu --progress --delete -e ssh --exclude='.git' --exclude='.env' --exclude='composer.lock' --exclude='vendor' --exclude='storage' $CI_PROJECT_DIR www@121.37.252.197:$DEPLOY_MASTER_PATH
+    - ssh www@121.37.252.197 "cd $DEPLOY_MASTER_PATH/$PROJECT_NAME && composer update && chown -R www:www vendor"
+  only:
+    - show
